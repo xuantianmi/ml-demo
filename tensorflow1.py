@@ -1,3 +1,4 @@
+#-*- coding: UTF-8 -*-
 #!/usr/bin/env python
 
 import tensorflow as tf
@@ -6,8 +7,13 @@ import numpy as np
 # 生成了一些三维数据, 然后用一个平面拟合.
 # 使用 NumPy 生成假数据(phony data), 总共 100 个点.
 x_data = np.float32(np.random.rand(2, 100)) # 随机输入
+print '----x-data----'
+print x_data
+print '--------------'
 y_data = np.dot([0.100, 0.200], x_data) + 0.300
-
+print '----y-data----'
+print y_data
+print '--------------'
 # 构造一个线性模型
 #
 b = tf.Variable(tf.zeros([1]))
@@ -23,7 +29,12 @@ train = optimizer.minimize(loss)
 init = tf.initialize_all_variables()
 
 # 启动图 (graph)
-sess = tf.Session()
+# NOTE: 指定CPU数量，避免错误："can't determine number of CPU cores"
+NUM_CORES = 4  # Choose how many cores to use.
+sess = tf.Session(
+    config=tf.ConfigProto(inter_op_parallelism_threads=NUM_CORES,
+                   intra_op_parallelism_threads=NUM_CORES))
+#sess = tf.Session()
 sess.run(init)
 
 # 拟合平面
