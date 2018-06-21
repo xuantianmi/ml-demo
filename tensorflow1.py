@@ -6,6 +6,7 @@ import numpy as np
 
 # 生成了一些三维数据, 然后用一个平面拟合.
 # 使用 NumPy 生成假数据(phony data), 总共 100 个点.
+# np.random.rand(2, 100):创建指定形状(示例为2行100列)的数组(范围在0至1之间)
 x_data = np.float32(np.random.rand(2, 100)) # 随机输入
 print '----x-data----'
 print x_data

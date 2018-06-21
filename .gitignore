@@ -2,3 +2,5 @@
 /.idea
 */*.log
 */*.run
+*.pyc
+*/MNIST_data/*.gz
