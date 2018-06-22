@@ -19,3 +19,4 @@ ref: https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/examples
 - http://www.tensorfly.cn/
 - https://tensorflow.google.cn/
 - https://tensorflow.google.cn/tutorials/
+- TF基本用法：http://www.tensorfly.cn/tfdoc/get_started/basic_usage.html
