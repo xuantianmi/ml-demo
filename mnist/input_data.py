@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright 2015 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +15,10 @@
 # ==============================================================================
 
 """Functions for downloading and reading MNIST data."""
+# __future__: 运行Python3.X功能 on Python 2.7
+# absolute_import: 区分出绝对导入和相对导入
+# division: 支持浮点除/整除(地板除或截断) 10 / 3=3.3333333333333335, 10 // 3=3
+# print_function: print("Hello world"), not print "Hello world"
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -23,13 +28,18 @@ import os
 
 import tensorflow.python.platform
 
+# NumPy是Python语言的一个扩充程序库。支持高级大量的维度数组与矩阵运算，此外也针对数组运算提供大量的数学函数库。
 import numpy
+## six是用来兼容python 2 和 3的, six.moves 是用来处理那些在2和3里面函数的位置有变化的，直接用six.moves就可以屏蔽掉这些变化
+# Urllib是python内置的HTTP请求库
 from six.moves import urllib
+# xrange 函数用法与 range 完全相同，所不同的是生成的不是一个数组，而是一个生成器。
 from six.moves import xrange  # pylint: disable=redefined-builtin
+# TensorFlow™ 是一个采用数据流图（data flow graphs），用于数值计算的开源软件库。
+# 节点（Nodes）在图中表示数学操作，图中的线（edges）则表示在节点间相互联系的多维数据数组，即张量（tensor）。
 import tensorflow as tf
 
 SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
-
 
 def maybe_download(filename, work_directory):
   """Download the data from Yann's website, unless it's already here."""
@@ -42,11 +52,10 @@ def maybe_download(filename, work_directory):
     print('Successfully downloaded', filename, statinfo.st_size, 'bytes.')
   return filepath
 
-
 def _read32(bytestream):
+  """?newbyteorder?."""
   dt = numpy.dtype(numpy.uint32).newbyteorder('>')
   return numpy.frombuffer(bytestream.read(4), dtype=dt)[0]
-
 
 def extract_images(filename):
   """Extract the images into a 4D uint8 numpy array [index, y, x, depth]."""
