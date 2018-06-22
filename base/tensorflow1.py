@@ -30,7 +30,7 @@ train = optimizer.minimize(loss)
 init = tf.initialize_all_variables()
 
 # 启动图 (graph)
-# NOTE: 指定CPU数量，避免错误："can't determine number of CPU cores"
+# NOTE: 指定CPU数量，避免警告："can't determine number of CPU cores"
 NUM_CORES = 4  # Choose how many cores to use.
 sess = tf.Session(
     config=tf.ConfigProto(inter_op_parallelism_threads=NUM_CORES,
