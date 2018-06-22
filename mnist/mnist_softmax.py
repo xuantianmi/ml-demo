@@ -32,14 +32,19 @@ mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
 
 sess = tf.InteractiveSession()
 
-# Create the model
+# Create the model.
+# y=softmax(wx+b), w-权重值, b-偏置量
+# 每张图片28x28=784; None表示此张量的第一个维度可以是任何长度的
 x = tf.placeholder(tf.float32, [None, 784])
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
+print('b:', b)
+# matmul:矩阵相乘
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 
 # Define loss and optimizer
 y_ = tf.placeholder(tf.float32, [None, 10])
+# tf.log: 对张量所有元素进行对数运算
 cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 

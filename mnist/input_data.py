@@ -53,8 +53,10 @@ def maybe_download(filename, work_directory):
   return filepath
 
 def _read32(bytestream):
-  """?newbyteorder?."""
+  """定义dtype：numpy.uint32设定将高序字节存储在起始地址（高位编址）(‘>’/big endian)"""
   dt = numpy.dtype(numpy.uint32).newbyteorder('>')
+  # 按照制定dtype从字节流读取一个整数. frombuffer: Interpret a buffer as a 1-dimensional array.
+  # print("!!!", numpy.frombuffer(bytestream.read(4), dtype=dt))
   return numpy.frombuffer(bytestream.read(4), dtype=dt)[0]
 
 def extract_images(filename):
@@ -62,25 +64,47 @@ def extract_images(filename):
   print('Extracting', filename)
   with gzip.open(filename) as bytestream:
     magic = _read32(bytestream)
+    #print("_read32: ", magic)
     if magic != 2051:
       raise ValueError(
           'Invalid magic number %d in MNIST image file: %s' %
           (magic, filename))
+    # 记录图片的数量=train-60000/test-10000
     num_images = _read32(bytestream)
+    #print("num_images:", num_images)
+    # 图片的rows/cols都是28，手写数字的图片
     rows = _read32(bytestream)
     cols = _read32(bytestream)
+    #print("rows:", rows)
+    #print("cols:", cols)
+    # 从流中获取所有图片的字节
     buf = bytestream.read(rows * cols * num_images)
+    # 将字节流转成数组
     data = numpy.frombuffer(buf, dtype=numpy.uint8)
+    # 一维数组转换成4维数组：图片索引/图片行/图片列/图片元素“灰度”。reshape：用于改变数组的形状/维度
     data = data.reshape(num_images, rows, cols, 1)
     return data
 
 
 def dense_to_one_hot(labels_dense, num_classes=10):
-  """Convert class labels from scalars to one-hot vectors."""
+  """Convert class labels from scalars to one-hot vectors. 将标签一维数组转成二位数组[imagesindex, onehot], onehot即lable对应位为1，其他为0"""
+  # onehot标签: 一个长度为n的数组，只有一个元素是1.0，其他元素是0.0
+  # 获取标签数组的长度. shape: 查看矩阵或者数组的维数，返回一个数组(比如维度是2，则数组长度是2)
   num_labels = labels_dense.shape[0]
+  #print('dense_to_one_hot num_labels:', num_labels)
+  # 生成一个一维等差数组(0-num_labels)，长度为num_labels, 并为每位*num_classes. arange函数用于创建等差数组
   index_offset = numpy.arange(num_labels) * num_classes
+  #print('numpy.arange(num_labels):', numpy.arange(num_labels))
+  #print('index_offset:', index_offset)
+  # Return a new array of given shape and type, filled with zeros.
   labels_one_hot = numpy.zeros((num_labels, num_classes))
+  # flat: A 1-D iterator over the array. 多维数组按照1维做迭代
+  # numpy.ravel() vs numpy.flatten(): 两者所要实现的功能是一致的（将多维数组降位一维）
+  # 两者的区别在于返回拷贝（copy）还是返回视图（view），numpy.flatten()返回一份拷贝，对拷贝所做的修改不会影响（reflects）原始矩阵，而numpy.ravel()返回的是视图（view，也颇有几分C/C++引用reference的意味），会影响（reflects）原始矩阵。
+  # index_offset代表image索引（即数组行），labels_dense则是标签值。使得labels_one_hot每行对应label的位置，值为1
+  # 注：由于labels_dense本身就是一维的，所以可以不必ravel
   labels_one_hot.flat[index_offset + labels_dense.ravel()] = 1
+  #print('labels_one_hot', labels_one_hot)
   return labels_one_hot
 
 
@@ -93,8 +117,11 @@ def extract_labels(filename, one_hot=False):
       raise ValueError(
           'Invalid magic number %d in MNIST label file: %s' %
           (magic, filename))
+    # 标签总数量，对应images数量
     num_items = _read32(bytestream)
+    #print('num_items:', num_items)
     buf = bytestream.read(num_items)
+    # 从流中获得标签数组
     labels = numpy.frombuffer(buf, dtype=numpy.uint8)
     if one_hot:
       return dense_to_one_hot(labels)
@@ -123,10 +150,13 @@ class DataSet(object):
           'images.shape: %s labels.shape: %s' % (images.shape,
                                                  labels.shape))
       self._num_examples = images.shape[0]
+      print('self._num_examples', self._num_examples)
 
       # Convert shape from [num examples, rows, columns, depth]
       # to [num examples, rows*columns] (assuming depth == 1)
+      print('images.shape[3]', images.shape[3])
       assert images.shape[3] == 1
+      # NOTE 疑问：降维的目的还要再看看！
       images = images.reshape(images.shape[0],
                               images.shape[1] * images.shape[2])
       if dtype == tf.float32:
@@ -156,12 +186,17 @@ class DataSet(object):
 
   def next_batch(self, batch_size, fake_data=False):
     """Return the next `batch_size` examples from this data set."""
+    # NOTE 再看一遍！
     if fake_data:
       fake_image = [1] * 784
+      print('fake_image:', fake_image)
       if self.one_hot:
         fake_label = [1] + [0] * 9
       else:
         fake_label = 0
+      # NOTE 再看一遍！
+      print('next_batch return:', [fake_image for _ in xrange(batch_size)], [
+          fake_label for _ in xrange(batch_size)])
       return [fake_image for _ in xrange(batch_size)], [
           fake_label for _ in xrange(batch_size)]
     start = self._index_in_epoch
@@ -171,6 +206,7 @@ class DataSet(object):
       self._epochs_completed += 1
       # Shuffle the data
       perm = numpy.arange(self._num_examples)
+      # numpy.random.shuffle洗牌，用随机数填充数组
       numpy.random.shuffle(perm)
       self._images = self._images[perm]
       self._labels = self._labels[perm]
@@ -179,10 +215,12 @@ class DataSet(object):
       self._index_in_epoch = batch_size
       assert batch_size <= self._num_examples
     end = self._index_in_epoch
+    #print('self._images[start:end], self._labels[start:end]:', self._images[start:end], self._labels[start:end])
     return self._images[start:end], self._labels[start:end]
 
 
 def read_data_sets(train_dir, fake_data=False, one_hot=False, dtype=tf.float32):
+  # 注意:不是class DataSet(object):
   class DataSets(object):
     pass
   data_sets = DataSets()
@@ -213,6 +251,7 @@ def read_data_sets(train_dir, fake_data=False, one_hot=False, dtype=tf.float32):
   local_file = maybe_download(TEST_LABELS, train_dir)
   test_labels = extract_labels(local_file, one_hot=one_hot)
 
+  # train_images中前一部分用于validation，后一部分用于train
   validation_images = train_images[:VALIDATION_SIZE]
   validation_labels = train_labels[:VALIDATION_SIZE]
   train_images = train_images[VALIDATION_SIZE:]
