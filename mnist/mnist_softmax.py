@@ -50,6 +50,8 @@ y_ = tf.placeholder(tf.float32, [None, 10])
 # 在机器学习，我们通常定义指标来表示一个模型是坏的，这个指标称为成本（cost）或损失（loss），然后尽量最小化这个指标。
 # 一个常见的成本函数是“交叉熵”（cross-entropy）,下面就是标准公式
 cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+# 用来往计算图上添加一个新操作，其中包括计算梯度，计算每个参数的步长变化，并且计算出新的参数值。
+# 返回的train_step操作对象，在运行时会使用梯度下降来更新参数。因此，整个模型的训练可以通过反复地运行train_step来完成。
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 
 # Train

@@ -13,7 +13,10 @@
 # limitations under the License.
 # ==============================================================================
 
-"""Trains and Evaluates the MNIST network using a feed dictionary."""
+"""
+Trains and Evaluates the MNIST network using a feed dictionary.
+展示如何利用TensorFlow使用（经典）MNIST数据集训练并评估一个用于识别手写数字的简易前馈神经网络（feed-forward neural network）。
+"""
 # pylint: disable=missing-docstring
 from __future__ import absolute_import
 from __future__ import division

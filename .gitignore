@@ -4,3 +4,5 @@
 */*.run
 *.pyc
 */MNIST_data/*.gz
+/MNIST_data/*.gz
+.vscode/*
