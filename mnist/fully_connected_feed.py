@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright 2015 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +31,8 @@ import numpy
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow as tf
 
-from mnist import input_data
-from mnist import mnist
+import input_data
+import mnist
 
 
 # Basic model parameters as external flags.
@@ -43,7 +44,7 @@ flags.DEFINE_integer('hidden1', 128, 'Number of units in hidden layer 1.')
 flags.DEFINE_integer('hidden2', 32, 'Number of units in hidden layer 2.')
 flags.DEFINE_integer('batch_size', 100, 'Batch size.  '
                      'Must divide evenly into the dataset sizes.')
-flags.DEFINE_string('train_dir', 'data', 'Directory to put the training data.')
+flags.DEFINE_string('train_dir', 'MNIST_data', 'Directory to put the training data.')
 flags.DEFINE_boolean('fake_data', False, 'If true, uses fake data '
                      'for unit testing.')
 

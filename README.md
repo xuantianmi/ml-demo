@@ -18,7 +18,9 @@ $ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --force-reinstall --up
 $ sudo pip install six --ignore-installed six
 
 ## Tensor's mnist demo
-ref: https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/examples/tutorials/mnist
+ref: 
+- https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/examples/tutorials/mnist
+- http://www.tensorfly.cn/tfdoc/tutorials/mnist_tf.html
 
 ### Softmax Regression(mnist_softmax.py)
 阅读代码并增加注释
