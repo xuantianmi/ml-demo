@@ -228,6 +228,8 @@ def run_training():
 def main(_):
   run_training()
 
-
+# 当.py文件被直接运行时，if __name__ == '__main__'之下的代码块将被运行；
+# 当.py文件以模块形式被导入时，if __name__ == '__main__'之下的代码块不被运行。
 if __name__ == '__main__':
+  # tensorflow的程序中,在main函数下,都是使用tf.app.run()来启动
   tf.app.run()

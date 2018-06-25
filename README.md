@@ -30,6 +30,18 @@ ref:
 
 ### 简易前馈神经网络(fully_connected_feed.py)
 展示如何利用TensorFlow使用（经典）MNIST数据集训练并评估一个用于识别手写数字的简易前馈神经网络（feed-forward neural network）。
+fully_connected_feed.py
+- placeholder_inputs(batch_size):将生成两个tf.placeholder操作，定义传入图表中的shape参数
+- fill_feed_dict(data_set, images_pl, labels_pl)
+- do_eval(sess,eval_correct,images_placeholder,labels_placeholder,data_set)
+- run_training()
+- main(_)
+mnist.py
+经过三阶段的模式函数操作：推理inference()， 损失loss()，和training()。图表就构建完成了。
+- mnist.inference() —— 尽可能地构建好图表，满足促使神经网络向前反馈并做出预测的要求。
+- mnist.loss() —— 往inference图表中添加生成损失（loss）所需要的操作（ops）。
+- mnist.training() —— 往损失图表中添加计算并应用梯度（gradients）所需的操作。
+- mnist.evaluation(logits, labels) —— ...
 
 ### (BTW)Python3.3 up内置了pip包管理器
 ```
