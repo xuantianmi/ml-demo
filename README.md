@@ -30,18 +30,20 @@ ref:
 
 ### 简易前馈神经网络(fully_connected_feed.py)
 展示如何利用TensorFlow使用（经典）MNIST数据集训练并评估一个用于识别手写数字的简易前馈神经网络（feed-forward neural network）。
-#### fully_connected_feed.py
-- placeholder_inputs(batch_size):将生成两个tf.placeholder操作，定义传入图表中的shape参数
-- fill_feed_dict(data_set, images_pl, labels_pl)
-- do_eval(sess,eval_correct,images_placeholder,labels_placeholder,data_set)
-- run_training()
-- main(_)
 #### mnist.py
+构建一个完全连接（fully connected）的MINST模型所需的代码
 经过三阶段的模式函数操作：推理inference()， 损失loss()，和training()。图表就构建完成了。
 - mnist.inference() —— 尽可能地构建好图表，满足促使神经网络向前反馈并做出预测的要求。
 - mnist.loss() —— 往inference图表中添加生成损失（loss）所需要的操作（ops）。
 - mnist.training() —— 往损失图表中添加计算并应用梯度（gradients）所需的操作。
 - mnist.evaluation(logits, labels) —— ...
+#### fully_connected_feed.py
+利用下载的数据集训练构建好的MNIST模型的主要代码，以数据反馈字典（feed dictionary）的形式作为输入模型。
+- placeholder_inputs(batch_size):将生成两个tf.placeholder操作，定义传入图表中的shape参数
+- fill_feed_dict(data_set, images_pl, labels_pl)
+- do_eval(sess,eval_correct,images_placeholder,labels_placeholder,data_set)
+- run_training(): 程序的实际入口module!
+- main(_)
 
 ### (BTW)Python3.3 up内置了pip包管理器
 ```
@@ -67,3 +69,15 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 
 ## Tips
 - 模型普遍是套用那些经典模型结构AlexNet、VGG、inception、resnet，在这些基础上综合考虑自己gpu的存储、性能确定网络结构和复杂度。
+
+
+## Glossary
+|Name|Content|
+|:- | :- | 
+|dw Conv|DWConv表示depthwise separable convolution|
+|pw Conv|？？？|
+|K-fold cross-validation|K层交叉检验就是把原始的数据随机分成K个部分。在这K个部分中，选择一个作为测试数据，剩下的K-1个作为训练数据。<br/>交叉检验的过程实际上是把实验重复做K次，每次实验都从K个部分中选择一个不同的部分作为测试数据（保证K个部分的数据都分别做过测试数据），剩下的K-1个当作训练数据进行实验，最后把得到的K个实验结果平均。| 
+|LMTCNN|Lightweight Multi-task CNN|
+|ReLu|Rectified Linear Units激活函数|
+|softmax 回归|多项式逻辑回归|
+|tf.nn.softmax|Multiplies matrix|

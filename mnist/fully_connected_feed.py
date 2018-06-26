@@ -37,6 +37,7 @@ import mnist
 
 # Basic model parameters as external flags.
 flags = tf.app.flags
+# FLAGS可以从命令行接受参数，当前值可理解为默认值
 FLAGS = flags.FLAGS
 flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
 flags.DEFINE_integer('max_steps', 2000, 'Number of steps to run trainer.')
@@ -231,5 +232,5 @@ def main(_):
 # 当.py文件被直接运行时，if __name__ == '__main__'之下的代码块将被运行；
 # 当.py文件以模块形式被导入时，if __name__ == '__main__'之下的代码块不被运行。
 if __name__ == '__main__':
-  # tensorflow的程序中,在main函数下,都是使用tf.app.run()来启动
+  # tensorflow的程序中,在main函数下,都是使用tf.app.run()来启动，它再调用main()方法，并传递sys.argv参数进去
   tf.app.run()

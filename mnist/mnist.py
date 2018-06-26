@@ -56,6 +56,7 @@ def inference(images, hidden1_units, hidden2_units):
     softmax_linear: Output tensor with the computed logits.
   """
   # Hidden 1
+  # 每一层都创建在一个唯一的tf.name_scope之下，创建于该作用域之下的所有元素都将带有其前缀。
   with tf.name_scope('hidden1'):
     weights = tf.Variable(
         tf.truncated_normal([IMAGE_PIXELS, hidden1_units],
@@ -63,7 +64,9 @@ def inference(images, hidden1_units, hidden2_units):
         name='weights')
     biases = tf.Variable(tf.zeros([hidden1_units]),
                          name='biases')
+    # print("biases.name) output=hidden1/biases:0
     hidden1 = tf.nn.relu(tf.matmul(images, weights) + biases)
+  
   # Hidden 2
   with tf.name_scope('hidden2'):
     weights = tf.Variable(
@@ -73,6 +76,7 @@ def inference(images, hidden1_units, hidden2_units):
     biases = tf.Variable(tf.zeros([hidden2_units]),
                          name='biases')
     hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
+  
   # Linear
   with tf.name_scope('softmax_linear'):
     weights = tf.Variable(
@@ -99,15 +103,23 @@ def loss(logits, labels):
   # to 1-hot dense float vectors (that is we will have batch_size vectors,
   # each with NUM_CLASSES values, all of which are 0.0 except there will
   # be a 1.0 in the entry corresponding to the label).
+  # 首先，labels_placeholer中的值，将被编码为一个含有1-hot values的Tensor。
+  # 例如，如果类标识符为“3”，那么该值就会被转换为： [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+  # tf.size: 返回数据的元素数量
   batch_size = tf.size(labels)
+  # 扩展tensor维度
   labels = tf.expand_dims(labels, 1)
   indices = tf.expand_dims(tf.range(0, batch_size), 1)
+  # [[1],[3],[5]] + [[1],[2],[3]] = [[1,1],[3,2],[5,3]]
   concated = tf.concat(1, [indices, labels])
+  # 制造一个onehot二维张量，此处sparse_to_dense等价于tf.one_hot(labels,NUM_CLASSES,1,0)，但sparse_to_dense还有更灵活用法
   onehot_labels = tf.sparse_to_dense(
       concated, tf.pack([batch_size, NUM_CLASSES]), 1.0, 0.0)
+  # 之后，又添加一个tf.nn.softmax_cross_entropy_with_logits操作，用来比较inference()函数与1-hot标签所输出的logits Tensor。
   cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits,
-                                                          onehot_labels,
-                                                          name='xentropy')
+                                                        onehot_labels,
+                                                        name='xentropy')
+  # 然后，使用tf.reduce_mean函数，计算batch维度（第一维度）下交叉熵（cross entropy）的平均值，将该值作为总损失。                                                        name='xentropy')
   loss = tf.reduce_mean(cross_entropy, name='xentropy_mean')
   return loss
 
