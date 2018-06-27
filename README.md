@@ -36,14 +36,14 @@ ref:
 - mnist.inference() —— 尽可能地构建好图表，满足促使神经网络向前反馈并做出预测的要求。
 - mnist.loss() —— 往inference图表中添加生成损失（loss）所需要的操作（ops）。
 - mnist.training() —— 往损失图表中添加计算并应用梯度（gradients）所需的操作。
-- mnist.evaluation(logits, labels) —— ...
+- mnist.evaluation(logits, labels) —— 对比labels做模型评估
 #### fully_connected_feed.py
 利用下载的数据集训练构建好的MNIST模型的主要代码，以数据反馈字典（feed dictionary）的形式作为输入模型。
 - placeholder_inputs(batch_size):将生成两个tf.placeholder操作，定义传入图表中的shape参数
 - fill_feed_dict(data_set, images_pl, labels_pl)
 - do_eval(sess,eval_correct,images_placeholder,labels_placeholder,data_set)
 - run_training(): 程序的实际入口module!
-- main(_)
+- main(_) python标准入口
 
 ### (BTW)Python3.3 up内置了pip包管理器
 ```

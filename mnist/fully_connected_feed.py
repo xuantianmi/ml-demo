@@ -202,7 +202,10 @@ def run_training():
 
       # Save a checkpoint and evaluate the model periodically.
       if (step + 1) % 1000 == 0 or (step + 1) == FLAGS.max_steps:
-        saver.save(sess, FLAGS.train_dir, global_step=step)
+        # 调整checkpoint存储目录和文件名
+        save_path = FLAGS.train_dir + '/checkpoint'
+        #saver.save(sess, FLAGS.train_dir, global_step=step)
+        saver.save(sess, save_path, global_step=step)
         # Evaluate against the training set.
         print('Training Data Eval:')
         do_eval(sess,

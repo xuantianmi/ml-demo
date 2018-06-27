@@ -3,8 +3,6 @@
 */*.log
 */*.run
 *.pyc
-*/MNIST_data/*.*
-/MNIST_data/*.*
+*/MNIST_data/*
+/MNIST_data/*
 .vscode/*
-checkpoint
-MNIST_data*

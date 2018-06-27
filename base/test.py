@@ -3,7 +3,7 @@
 import tensorflow as tf
 
 def tf_flags():
-    #调用flags内部的DEFINE_string函数来制定解析规则. 也可以接收命令行参数！
+    """调用flags内部的DEFINE_string函数来制定解析规则. 也可以接收命令行参数！"""
     tf.flags.DEFINE_string("para_name_1","default_val", "description")
     tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
     tf.flags.DEFINE_integer("num_epochs", 10, "Number of training epochs (default: 10)")
@@ -17,8 +17,8 @@ def tf_flags():
     # FLAGS可以从命令行接受参数。
     # python3 test.py --batch_size=100
 
-def tf_test():
-    # 此处sparse_to_dense等价于tf.one_hot(labels,NUM_CLASSES,1,0)，但sparse_to_dense还有更灵活用法
+def tf_onehot():
+    """此处sparse_to_dense等价于tf.one_hot(labels,NUM_CLASSES,1,0)，但sparse_to_dense还有更灵活用法"""
     NUM_CLASSES = 10
     labels = tf.Variable([1,2,3,4])
     batch_size = tf.size(labels)
@@ -44,4 +44,4 @@ def tf_test():
 if __name__ == '__main__':
     sess = tf.InteractiveSession()
     #tf_flags()
-    tf_test()
+    tf_onehot()
