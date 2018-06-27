@@ -34,7 +34,6 @@ import tensorflow as tf
 import input_data
 import mnist
 
-
 # Basic model parameters as external flags.
 flags = tf.app.flags
 # FLAGS可以从命令行接受参数，当前值可理解为默认值
@@ -165,6 +164,7 @@ def run_training():
     sess = tf.Session()
 
     # Run the Op to initialize the variables.
+    #writer = tf.train.SummaryWriter('MNIST_data', sess.graph_def)
     init = tf.initialize_all_variables()
     sess.run(init)
 
@@ -199,6 +199,7 @@ def run_training():
         # Update the events file.
         summary_str = sess.run(summary_op, feed_dict=feed_dict)
         summary_writer.add_summary(summary_str, step)
+        #writer.add_summary(summary_str, step)
 
       # Save a checkpoint and evaluate the model periodically.
       if (step + 1) % 1000 == 0 or (step + 1) == FLAGS.max_steps:

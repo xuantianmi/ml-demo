@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
 
 """A very simple MNIST classifier. 
 用卷积神经网络改进后的Softmax（Softmax regression + CNN）

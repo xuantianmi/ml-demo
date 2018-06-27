@@ -30,6 +30,7 @@ ref:
 
 ### 简易前馈神经网络(fully_connected_feed.py)
 展示如何利用TensorFlow使用（经典）MNIST数据集训练并评估一个用于识别手写数字的简易前馈神经网络（feed-forward neural network）。
+
 #### mnist.py
 构建一个完全连接（fully connected）的MINST模型所需的代码
 经过三阶段的模式函数操作：推理inference()， 损失loss()，和training()。图表就构建完成了。
@@ -37,6 +38,7 @@ ref:
 - mnist.loss() —— 往inference图表中添加生成损失（loss）所需要的操作（ops）。
 - mnist.training() —— 往损失图表中添加计算并应用梯度（gradients）所需的操作。
 - mnist.evaluation(logits, labels) —— 对比labels做模型评估
+
 #### fully_connected_feed.py
 利用下载的数据集训练构建好的MNIST模型的主要代码，以数据反馈字典（feed dictionary）的形式作为输入模型。
 - placeholder_inputs(batch_size):将生成两个tf.placeholder操作，定义传入图表中的shape参数
@@ -44,6 +46,11 @@ ref:
 - do_eval(sess,eval_correct,images_placeholder,labels_placeholder,data_set)
 - run_training(): 程序的实际入口module!
 - main(_) python标准入口
+
+#### mnist_with_summaries.py
+TensorBoard:可视化学习
+tensorboard --logdir=/path/to/log-directory。其中，logdir是SummaryWriter函数指定的日志存储目录
+BTW：fully_connected_feed.py也有日志哈～
 
 ### (BTW)Python3.3 up内置了pip包管理器
 ```
@@ -69,7 +76,7 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 
 ## Tips
 - 模型普遍是套用那些经典模型结构AlexNet、VGG、inception、resnet，在这些基础上综合考虑自己gpu的存储、性能确定网络结构和复杂度。
-
+- pyc只有在对应文件被引用时才会生成（如A.py引用B.py, 执行A时，会生成B.pyc）。如果有pyc文件，则对应的py文件可以没有，以达到一定保密性。
 
 ## Glossary
 |Name|Content|
