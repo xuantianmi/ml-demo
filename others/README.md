@@ -1,4 +1,5 @@
 # Joint Estimation of Age and Gender from Unconstrained Face Images using Lightweight Multi-task CNN for Mobile Applications
+ref: https://arxiv.org/pdf/1806.02023.pdf 
 
 ## LMTCNN study
 ref: https://arxiv.org/pdf/1806.02023.pdf
@@ -28,3 +29,7 @@ ln -s /usr/local/Cellar/python/3.6.5_1/Frameworks/Python.framework/Versions/3.6/
 sudo pip3 install --index https://pypi.mirrors.ustc.edu.cn/simple/ keras
 sudo pip3 install --index https://pypi.mirrors.ustc.edu.cn/simple/ tensorflow
 sudo pip3 install --index https://pypi.mirrors.ustc.edu.cn/simple/ matplotlib
+(option)
+sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
+sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pygame
+sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple tensor_array_ops
