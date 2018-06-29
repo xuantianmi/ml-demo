@@ -1,4 +1,6 @@
-# Mache Learning Demos(Mac OS X, Python2.7)
+# Mache Learning(ML) Demos(Mac OS X, Python2.7)
+BTW, ML正好是本人名字的缩写，好开心 :=)
+
 Demo代码均源自如下资源，并增加适当注释和调整：
 - https://tensorflow.google.cn/
 - https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/g3doc/tutorials/mnist/
@@ -67,6 +69,8 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 - https://tensorflow.google.cn/
 - https://tensorflow.google.cn/tutorials/
 - TF基本用法：http://www.tensorfly.cn/tfdoc/get_started/basic_usage.html
+- 参考论文主要来自 https://arxiv.org（中国镜像 http://cn.arxiv.org）
+- Github翻墙 https://github.com/Alvin9999/new-pac
 
 ### 图像通道数
 - 单通道图：俗称灰度图，每个像素点只能有有一个值表示颜色，它的像素值在0到255之间，0是黑色，255是白色，中间值是一些不同等级的灰色。（也有3通道的灰度图，3通道灰度图只有一个通道有值，其他两个通道的值都是零）。
@@ -74,9 +78,14 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 - 四通道：在RGB基础上加上alpha通道，表示透明度，alpha=0表示全透明
 - 其他 略
 
+### 前馈和反向神经网络的理解与区别
+- 反向(BP)传播算法的核心思想是：目标函数对于某层输入的导数（或者梯度）可以通过向后传播对该层输出（或者下一层输入）的导数求得。即通过y=f(x)的导数获得x的导数，进而通过获得神经网络输出层的y导数，（逐层反推）获得输入层的x的导数。而一旦获知每层的x和y导数，就可以求得W和b。
+- 前馈式神经网络，学习一个从固定大小输入（比如输入是一张图）到固定大小输出（例如，到不同类别的概率）的映射。从第一层到下一层，计算前一层神经元输入数据的权值的和，然后把这个和传给一个非线性激活函数。当前最流行的非线性激活函数是rectified linear unit(ReLU)，函数形式：f(z)=max(z,0)。
+
 ## Tips
 - 模型普遍是套用那些经典模型结构AlexNet、VGG、inception、resnet，在这些基础上综合考虑自己gpu的存储、性能确定网络结构和复杂度。
 - pyc只有在对应文件被引用时才会生成（如A.py引用B.py, 执行A时，会生成B.pyc）。如果有pyc文件，则对应的py文件可以没有，以达到一定保密性。
+- 通常情况下，输入层和输出层以外的神经单元被称为隐藏单元。隐藏层的作用可以看成是使用一个非线性的方式打乱输入数据，来让输入数据对应的类别在最后一层变得线性可分。
 
 ## Glossary
 |Name|Content|
