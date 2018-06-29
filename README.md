@@ -88,3 +88,10 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 |ReLu|Rectified Linear Units激活函数|
 |softmax 回归|多项式逻辑回归|
 |tf.nn.softmax|Multiplies matrix|
+|BP神经网络|BP(back propagation)神经网络是1986年由Rumelhart和McClelland为首的科学家提出的概念，是一种按照误差逆向传播算法训练的多层前馈神经网络，是目前应用最广泛的神经网络。|
+|LSTM|Long Short-Term Memory，是长短期记忆网络，是一种时间递归神经网络，适合于处理和预测时间序列中间隔和延迟相对较长的重要事件。|
+|MSE|Mean Square Error均方误差|
+|RNN|Recurrent neural network，递归神经网络（RNN），是两种人工神经网络的总称，一种是时间递归神经网络（recurrent neural network），另一种是结构递归神经网络（recursive neural network）|
+
+时间序列预测分析就是利用过去一段时间内某事件时间的特征来预测未来一段时间内该事件的特征。这是一类相对比较复杂的预测建模问题，和回归分析模型的预测不同，时间序列模型是依赖于事件发生的先后顺序的，同样大小的值改变顺序后输入模型产生的结果是不同的。
+举个栗子：根据过去两年某股票的每天的股价数据推测之后一周的股价变化；根据过去2年某店铺每周想消费人数预测下周来店消费的人数等等
