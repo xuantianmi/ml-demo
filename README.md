@@ -70,7 +70,7 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 - https://tensorflow.google.cn/tutorials/
 - TF基本用法：http://www.tensorfly.cn/tfdoc/get_started/basic_usage.html
 - 参考论文主要来自 https://arxiv.org（中国镜像 http://cn.arxiv.org）
-- Github翻墙 https://github.com/Alvin9999/new-pac
+- Github翻墙 https://github.com/Alvin9999/new-pac, https://gitlab.com/Alvin9999/free/wikis/home
 
 ### 图像通道数
 - 单通道图：俗称灰度图，每个像素点只能有有一个值表示颜色，它的像素值在0到255之间，0是黑色，255是白色，中间值是一些不同等级的灰色。（也有3通道的灰度图，3通道灰度图只有一个通道有值，其他两个通道的值都是零）。
@@ -101,6 +101,10 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 |LSTM|Long Short-Term Memory，是长短期记忆网络，是一种时间递归神经网络，适合于处理和预测时间序列中间隔和延迟相对较长的重要事件。|
 |MSE|Mean Square Error均方误差|
 |RNN|Recurrent neural network，递归神经网络（RNN），是两种人工神经网络的总称，一种是时间递归神经网络（recurrent neural network），另一种是结构递归神经网络（recursive neural network）|
+|RNN|递归神经网络（recurrent neural networks）|
+
 
 时间序列预测分析就是利用过去一段时间内某事件时间的特征来预测未来一段时间内该事件的特征。这是一类相对比较复杂的预测建模问题，和回归分析模型的预测不同，时间序列模型是依赖于事件发生的先后顺序的，同样大小的值改变顺序后输入模型产生的结果是不同的。
 举个栗子：根据过去两年某股票的每天的股价数据推测之后一周的股价变化；根据过去2年某店铺每周想消费人数预测下周来店消费的人数等等
+
+Long Short Term 网络—— 一般就叫做 LSTM ——是一种 RNN 特殊的类型，可以学习长期依赖信息。

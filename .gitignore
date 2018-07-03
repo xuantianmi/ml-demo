@@ -7,3 +7,5 @@
 /MNIST_data/*
 .vscode/*
 /others/faces
+*/*.zip
+*/text8
