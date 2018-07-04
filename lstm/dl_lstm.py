@@ -92,7 +92,10 @@ class BatchGenerator(object):
     self._last_batch = self._next_batch()
   
   def _next_batch(self):
-    """Generate a single batch from the current cursor position in the data."""
+    """
+    把文本分段，并从每段取出一个字符。批次*27（字母+空格）组成一个onehot
+    Generate a single batch from the current cursor position in the data.
+    """
     # Return a new array of given shape and type, filled with zeros.
     batch = np.zeros(shape=(self._batch_size, vocabulary_size), dtype=np.float)
     for b in range(self._batch_size):
