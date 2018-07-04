@@ -2,7 +2,7 @@
 
 ## 创建首个.ipynb文件
 安装jupter notebook
-sudo pip install jupyter notebook
+sudo pip install --index https://pypi.mirrors.ustc.edu.cn/simple/ jupyter notebook
 cd ./ml_demo/lottery
 启动，浏览器就会弹出一个页面
 jupyter notebook
