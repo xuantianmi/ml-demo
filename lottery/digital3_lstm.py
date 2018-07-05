@@ -1,9 +1,11 @@
 '''
 通过TensorFlow实现一个LSTM(Recurrent Neural Network).
-通过训练样本学习预测：通过三个已知的开奖球预测下一开奖球
+通过训练样本学习预测：通过三个已知的开奖球号码预测下一开奖球号码
 
 Author: Merlin
+URL: https://github.com/xuantianmi/ml_demo/blob/master/lottery/digital3_lstm.py
 >python3 digital3_lstm.py
+注：训练样本(cp.txt)格式形如：345\n567\n...，每期有三个开奖球号码
 '''
 
 from __future__ import print_function
