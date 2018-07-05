@@ -17,19 +17,23 @@ ref: https://arxiv.org/pdf/1806.02023.pdf
 - Softmax for Age Prob / Softmax for Gender Prob
 
 ## Install python3 on MacOS
+```
 brew install python3
 sudo mkdir /usr/local/Frameworks
 sudo chown $(whoami):admin /usr/local/Frameworks
 brew link python3
+```
 
 ## Install pip3 on MacOS
+```
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 pyton3 get-pip.py
 ln -s /usr/local/Cellar/python/3.6.5_1/Frameworks/Python.framework/Versions/3.6/bin/pip /usr/local/bin/pip3 
 sudo pip3 install --index https://pypi.mirrors.ustc.edu.cn/simple/ keras
 sudo pip3 install --index https://pypi.mirrors.ustc.edu.cn/simple/ tensorflow
 sudo pip3 install --index https://pypi.mirrors.ustc.edu.cn/simple/ matplotlib
-(option)
+#(options)
 sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
 sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pygame
 sudo pip install -i https://pypi.tuna.tsinghua.edu.cn/simple tensor_array_ops
+```
