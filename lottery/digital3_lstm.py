@@ -27,13 +27,9 @@ def elapsed(sec):
     else:
         return str(sec/(60*60)) + " hr"
 
-
-# Target log path
+# writer用于记录模型培训日志，Tensorboard基于生成日志进行可视化
 logs_path = './logs'
 writer = tf.summary.FileWriter(logs_path)
-
-# Text file containing words for training
-training_file = './data/cp.txt'
 
 def read_data(path):
     """Load Dataset from File"""
@@ -43,7 +39,11 @@ def read_data(path):
 
     return data
 
-#training_data = read_data(training_file)
+# 此文件包含用于培训的开奖号码样本，要求奖期从上到下顺序存储
+training_file = './data/cp.txt'
+
+# 加载并预处理培训样本
+print("Loaded training data...")
 text = read_data(training_file)
 # 将文件字符串转成一维向量，每个元素是三个连续的开奖号码，如123
 list1 = np.array(text.split('\n'))
@@ -56,19 +56,20 @@ print(arr2)
 # 将上面的二维数组转成一维向量，表示历次的开奖球号的列表（不再体现明确显示奖期）
 training_data = arr2.reshape((arr2.size))
 print(training_data)
-print("Loaded training data...")
 
-# 0-9
+# 开奖球的范围：0-9
 digital_size = 10
 
 # Parameters
 learning_rate = 0.001
 training_iters = 50000
 display_step = 1000
-n_input = 3
+# 每次预测都要输入3个球的号码，也可以更多，比如5个
+n_input = 5
 
 # number of units in RNN cell
-n_hidden = 512
+#n_hidden = 512
+n_hidden = 16
 
 # tf Graph input
 x = tf.placeholder("float", [None, n_input, 1])
@@ -83,23 +84,20 @@ biases = {
 }
 
 def RNN(x, weights, biases):
-
     # reshape to [1, n_input]
     x = tf.reshape(x, [-1, n_input])
 
     # Generate a n_input-element sequence of inputs
     x = tf.split(x,n_input,1)
 
-    # 2-layer LSTM, each layer has n_hidden units.
-    # Average Accuracy= 95.20% at 50k iter
-    rnn_cell = rnn.MultiRNNCell([rnn.BasicLSTMCell(n_hidden),rnn.BasicLSTMCell(n_hidden)])
-
-    # 1-layer LSTM with n_hidden units but with lower accuracy.
-    # Average Accuracy= 90.60% 50k iter
-    # Uncomment line below to test but comment out the 2-layer rnn.MultiRNNCell above
-    # rnn_cell = rnn.BasicLSTMCell(n_hidden)
+    # LSTM如何建就是想象的空间 :-), 对于排三来说层数增加没啥优化效果:-(
+    # N-layer LSTM, each layer has n_hidden units. 创建N层RNN，state_size=n_hidden
+    #rnn_cell = rnn.MultiRNNCell([rnn.BasicLSTMCell(n_hidden),rnn.BasicLSTMCell(n_hidden)])
+    cell_layers = 1
+    rnn_cell = rnn.MultiRNNCell([rnn.BasicLSTMCell(n_hidden) for _ in range(cell_layers)])
 
     # generate prediction
+    # 使用该函数就相当于调用了n次call函数。即通过{h0,x1, x2, …., xn}直接得{h1,h2…,hn}。
     outputs, states = rnn.static_rnn(rnn_cell, x, dtype=tf.float32)
 
     # there are n_input outputs but
@@ -158,12 +156,15 @@ with tf.Session() as session:
             symbols_out_pred = int(tf.argmax(onehot_pred, 1).eval())
             print("%s - [%s] vs [%s]" % (symbols_in,symbols_out,symbols_out_pred))
         step += 1
-        offset += (n_input+1)
+        # 调整：滑动窗口逐个球移动，而不是一次滑动3个球
+        #offset += (n_input+1)
+        offset += 1
     
     print("Optimization Finished!")
     print("Elapsed time: ", elapsed(time.time() - start_time))
     print("Run on command line.")
     
+    # 基于培训结果进行预测
     while True:
         prompt = "%s digitals: " % n_input
         three_digitals = input(prompt)
