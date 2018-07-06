@@ -3,6 +3,18 @@
 """下面都是一些涉及基础概念的例子，便于学习和理解基础知识"""
 
 import tensorflow as tf
+import numpy as np
+
+def tensor1():
+    a = np.array([[1,2],[3,4]])
+    sum0 = np.sum(a, axis=0)
+    sum1 = np.sum(a, axis=1)
+
+    print sum0
+    print sum1
+    # output
+    #[4 6]
+    #[3 7]
 
 def full_connect_param():
     """实现了前向传输，但是使用了占位符placeholder，开始没有 给x具体的值，而是在运行会话时通过feed_dict传入了多组值。也就产生了多组结果。"""
