@@ -1,6 +1,6 @@
 '''
 通过TensorFlow实现一个LSTM(Recurrent Neural Network).
-通过训练样本学习预测：通过三个已知的开奖球号码预测下一开奖球号码
+通过训练样本学习预测：通过N（三个或更多）个已知的开奖球号码预测下一开奖球号码
 
 Author: Merlin
 URL: https://github.com/xuantianmi/ml_demo/blob/master/lottery/digital3_lstm.py
@@ -46,9 +46,13 @@ training_file = './data/cp.txt'
 print("Loaded training data...")
 text = read_data(training_file)
 # 将文件字符串转成一维向量，每个元素是三个连续的开奖号码，如123
-list1 = np.array(text.split('\n'))
-print(list1)
-list2 = [int(item) for item in list1]
+rawList = text.split('\n')
+#print(rawList)
+# NOTE 数组反转。样本提供开奖号码顺序是上面最新，下面最老。这里把它做反转，把最新的开奖号码放到最下面！
+rawList.reverse()
+# print(rawList)
+list1 = np.array(rawList)
+#list2 = [int(item) for item in list1]
 # 将一维的开奖号码转成二维，即将开奖号码的三个数字split成数组
 arr1 = [[item[0:1], item[1:2], item[2:3]] for item in list1]
 arr2 = np.array(arr1, dtype=np.int32)
@@ -65,7 +69,7 @@ learning_rate = 0.001
 training_iters = 50000
 display_step = 1000
 # 每次预测都要输入3个球的号码，也可以更多，比如5个
-n_input = 5
+n_input = 10
 
 # number of units in RNN cell
 #n_hidden = 512
@@ -90,15 +94,21 @@ def RNN(x, weights, biases):
     # Generate a n_input-element sequence of inputs
     x = tf.split(x,n_input,1)
 
+    def get_cell(lstm_size):
+        lstm = tf.nn.rnn_cell.BasicLSTMCell(lstm_size)
+        #drop = tf.nn.rnn_cell.DropoutWrapper(lstm, output_keep_prob=keep_prob)
+        return lstm
+
     # LSTM如何建就是想象的空间 :-), 对于排三来说层数增加没啥优化效果:-(
     # N-layer LSTM, each layer has n_hidden units. 创建N层RNN，state_size=n_hidden
     #rnn_cell = rnn.MultiRNNCell([rnn.BasicLSTMCell(n_hidden),rnn.BasicLSTMCell(n_hidden)])
-    cell_layers = 1
-    rnn_cell = rnn.MultiRNNCell([rnn.BasicLSTMCell(n_hidden) for _ in range(cell_layers)])
+    cell_layers = 12
+    rnn_cell = tf.nn.rnn_cell.MultiRNNCell([get_cell(n_hidden) for _ in range(cell_layers)])
 
     # generate prediction
     # 使用该函数就相当于调用了n次call函数。即通过{h0,x1, x2, …., xn}直接得{h1,h2…,hn}。
-    outputs, states = rnn.static_rnn(rnn_cell, x, dtype=tf.float32)
+    outputs, states = tf.nn.static_rnn(rnn_cell, x, dtype=tf.float32)
+    #outputs, states = tf.nn.dynamic_rnn(rnn_cell, x, dtype=tf.float32)
 
     # there are n_input outputs but
     # we only want the last output

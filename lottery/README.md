@@ -26,7 +26,8 @@ jupyter notebook
 首个jupyter尝试～
 
 ## REF
-- [译]理解LSTM网络 https://www.jianshu.com/p/9dc9f41f0b29
-- 排三LSTM预测 https://github.com/chengstone/LotteryPredict
-- 带你了解LSTM https://www.cnblogs.com/DjangoBlog/p/6888812.html
-- 各种Deep Learning参考 https://github.com/roatienza/Deep-Learning-Experiments
+- [*(译)理解LSTM网络](https://www.jianshu.com/p/9dc9f41f0b29)
+- [排三LSTM预测](https://github.com/chengstone/LotteryPredict)
+- [带你了解LSTM](https://www.cnblogs.com/DjangoBlog/p/6888812.html)
+- [各种Deep Learning参考](https://github.com/roatienza/Deep-Learning-Experiments)
+- [*TensorFlow中RNN实现的正确打开方式](https://yq.aliyun.com/articles/229291)
