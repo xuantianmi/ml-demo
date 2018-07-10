@@ -71,6 +71,7 @@ sudo pip3 install tensorflow-gpu #安装gpu版tensorflow
 - [TF基本用法](http://www.tensorfly.cn/tfdoc/get_started/basic_usage.html)
 - [参考论文](https://arxiv.org) [论文参考中国镜像](http://cn.arxiv.org)
 - [Github翻墙](https://github.com/Alvin9999/new-pac, https://gitlab.com/Alvin9999/free/wikis/home)
+- [*Keras:基于Theano和TensorFlow的深度学习库](https://www.cnblogs.com/LittleHann/p/6442161.html)
 
 ### 图像通道数
 - 单通道图：俗称灰度图，每个像素点只能有有一个值表示颜色，它的像素值在0到255之间，0是黑色，255是白色，中间值是一些不同等级的灰色。（也有3通道的灰度图，3通道灰度图只有一个通道有值，其他两个通道的值都是零）。
